@@ -193,6 +193,49 @@ export let cteCorreto = async (req: Request, res: Response) => {
     }
 }
 
+export let cteErrado =async (req: Request, res: Response) => {
+    let idCte = req.params.id
+    let deEmissao = req.params.deEmissao
+    let ateEmissao = req.params.ateEmissao
+
+    let result = await TabelaCf.findAll({
+        where: {
+            cd_ctrc: {
+                [Op.eq]: idCte
+            }
+        },
+        include: [
+        {
+            model: TabelaCte,
+            foreignKey: 'cd_ctrc'
+        },
+        {
+            model: TabelaRota,
+            foreignKey: 'cd_rota',
+            as: 'TabelaRota'
+        },]
+    })
+
+    if(result.length > 0){
+        let dados = result[0]
+
+        const newCteClassificado = CteClassificado.build({
+            idClassificacao: 3,
+            dtCadastro: new Date(),
+            cd_ctrc: dados.TabelaCte.cd_ctrc,
+            cd_agencia: dados.TabelaCte.cd_agencia,
+            cd_pessoa_usuario_cancelamento: dados.TabelaCte.cd_pessoa_usuario_cancelamento,
+            nr_ctrc: dados.TabelaCte.nr_ctrc,
+            id_pedagio_cf: dados.id_pedagio
+        })
+        await newCteClassificado.save()
+    }
+
+
+
+    res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
+}
+
 export let cteCorretoSemRota = async (req: Request, res: Response) => {
     let idCte = req.params.id
     let deEmissao = req.params.deEmissao
