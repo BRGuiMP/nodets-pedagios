@@ -1,0 +1,121 @@
+
+            <!-- Footer Start -->
+            <footer>
+                <div class="container-fluid pt-4 px-4">
+                    <div class="bg-light rounded-top p-4">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 text-center text-sm-start">
+                                &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
+                            </div>
+                            <div class="col-12 col-sm-6 text-center text-sm-end">
+                                Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                           
+                            Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+        
+
+        
+        <!-- Back to Top -->
+        <!-- a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a -->
+    </div>
+    
+    
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/chart/chart.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+
+    <script>
+        let teste = '2022'
+        let total = 300
+        let errado = 50
+
+        // Grafico de relação de pedagios
+        
+        var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
+        var myChart1 = new Chart(ctx1, {
+            type: "bar",
+            data: {
+                labels: [teste],
+                datasets: [{
+                        label: "Total Emitidos",
+                        data: [total],
+                        backgroundColor: "rgba(0, 156, 255, .7)"
+                    },
+                    {
+                        label: "CTes C/ Regra Errada",
+                        data: [errado],
+                        backgroundColor: "rgba(255, 255, 0, .7)"
+                    },
+                    {
+                        label: "Relação %",
+                        data: [((errado*100)/total).toFixed(2)],
+                        backgroundColor: "rgba(255, 0, 0, .7)"
+                    }
+                ]
+                },
+            options: {
+                responsive: true
+            }
+        });
+        
+
+        // Mostra/retira opção de unidades
+        $('#dashboardSelecionado').change(function(){
+            let filtro = $('#dashboardSelecionado option:selected').val()
+            if(filtro == "dashboardUnidade"){
+                $('#filtroUnidade').removeAttr('style')
+                $('#divFiltroUnidade').attr('class', "d-flex align-items-center justify-content-between mb-4")
+            }
+            else{
+                $('#filtroUnidade').attr('style','display: none')
+                $('#divFiltroUnidade').attr('class', "d-flex align-items-center justify-content-end mb-4")
+            }
+        })
+        
+        /*
+        // Mostra os graficos do dashboard e detalhes
+        $("#btnFiltro").click(function(){
+            let deEmissao = $('[name=deEmissao]').val()
+            let ateEmissao = $('[name=ateEmissao]').val()
+            alert(`Emissao ${deEmissao} ate ${ateEmissao}`)
+            if(deEmissao != '' && ateEmissao != ''){
+                $("#dashboardDetalhes").removeAttr('style')
+                $("#tabelaDetalhes").removeAttr('style')
+                
+            }
+            else{
+                alert("Favor Preencher Campo Emissão")
+            }
+            
+        })
+        */
+
+        function click (){
+            console.log('clicou')
+        }
+        $("#botaoTeste850982").click(function(){
+            $("#container1").css('display', 'none')
+            console.log('fez')
+        })
+    </script>
+</body>
+</html>

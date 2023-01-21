@@ -1,0 +1,102 @@
+{{>partials/header}}
+
+<!-- Inicio Listagem CTe -->
+            <div class="container-fluid pt-4 px-4" id="dashboardDetalhes" >
+                <div class="row">
+                    <div class="col-sm-12 col-xl">
+                        <div class="bg-light text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-center">
+                                
+
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <td scope="col" colspan="4"><h6 class="mb-0">Relação de CTes para Classificar</h6></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <form method = 'POST' action='/listagem'>
+                                                <th><p style="padding-top: 0.4rem; ">Filtros</p></th>
+                                                <td >Emissão >= <input type="date" name="deEmissao" value='{{deEmissao}}' class="btn" required></td>
+                                                <td>Emissão <= <input type="date" name="ateEmissao" value='{{ateEmissao}}' class="btn" required></td>
+                                                <td><input type='submit' class="btn" value='Filtrar' id=""></td>
+                                            </form>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {{#dadosCf}} 
+            <div class="container-fluid pt-4 px-4" id="container1">
+                <div class="row">
+                    <div class="col-sm-12 col-xl">
+                        <div class="bg-light text-center rounded p-4">
+                            <div class="d-flex align-items-start justify-content-between">
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">CTe</th>
+                                            <th scope="col">Emissão</th>
+                                            <th scope="col">Agencia</th>
+                                            <th scope="col">Origem</th>
+                                            <th scope="col">Destino</th>
+                                            <th scope="col">Rota</th>
+                                            <th colspan="2" scope="col">Classificação</th>
+                                        </tr>
+                                    </thead>
+
+                                   
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">{{TabelaCte.nr_ctrc}}</th>
+                                            <td>{{TabelaCte.dt_emissao}}</td>
+                                            <td>{{TabelaCte.cd_agencia}}</td>
+                                            <td>{{TabelaRota.cd_cidade_origem}}</td>
+                                            <td>{{TabelaRota.cd_cidade_destino}}</td>
+                                            <td>{{TabelaRota.nm_rota}}</td>
+                                            <td>
+                                                <form method = 'POST' action='/cte-correto/{{TabelaCte.cd_ctrc}}/{{deEmissao}}/{{ateEmissao}}/add'>
+                                                    <input type='submit' class="btn btn-primary btn-sm" value='CTe Regra Correta' id="botaoTeste" onclick="click({{TabelaCte.cd_ctrc}})">
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method = 'POST' action='/cte-errado/{{TabelaCte.cd_ctrc}}/add'>
+                                                    <input type='submit' class="btn btn-primary btn-sm" value='CTe Regra Errada' id="btnFiltro">
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6"></td>
+                                            <td colspan="2">
+                                                <form method = 'POST' action='/cte-correto-sem-rota/{{TabelaCte.cd_ctrc}}/add'>
+                                                    <input type='submit' class="btn btn-primary btn-sm" value='CTe Regra Correta Sem Rota' id="btnFiltro">
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8">
+                                                <div class="input-group">
+                                                    <span class="input-group-text">Observação</span><textarea class="form-control" name="descObs" rows="1"></textarea>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/dadosCf}}
+
+
+            <!-- Fim Listagem CTe -->
+
+
+{{>partials/footer}}

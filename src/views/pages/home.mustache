@@ -1,0 +1,184 @@
+{{>partials/header}}
+
+
+
+<fieldset>
+    <legend>Novo Cargo</legend>
+    <form method = 'POST' action='/novocargo'>
+        <input type='text' name='name' placeholder='Digite um nome' /><br/><br/>
+        <textarea type='text' name=descpermission rows="4" cols="50" placeholder='Digite uma descrição'></textarea><br/><br/>
+        <input type='text' name='cargo' placeholder='Digite o cargo' /><br/><br/>
+        <input type='submit' value='Inserir Cargo' />
+    </form>
+</fieldset>
+
+
+<hr/>
+
+<fieldset>
+    <legend>Novo Usuario</legend>
+    <form method = 'POST' action='/novousuario'>
+        <input type='text' name='name' placeholder='Digite um nome' /><br/><br/>
+        <input type='number' name='age' placeholder='Digite uma idade' /><br/><br/>
+        
+            <label for="cars">Selecione o cargo:</label>
+            <select name="permission">
+                {{#permissions}}
+                    <option value={{idpermission}}>{{cargo}}</option>
+                {{/permissions}}
+            </select><br/><br/>
+        
+        <input type='submit' value='Inserir Usuario' />
+    </form>
+</fieldset>
+
+
+<h2>Usuarios do Banco</h2>
+
+<ul>
+    {{#users}}
+        <li>
+            Nome: {{name}} (Primeira letra {{firstLetterOfName}})
+            - Idade: {{age}} 
+            - Cargo: {{Permission.cargo}}
+            - <a href='/usuario/{{iduser}}/mais'>Aumenta</a> 
+            - <a href='/usuario/{{iduser}}/menos'>Diminui</a> 
+            - <a href='/usuario/{{iduser}}/excluir'>Excluir</a>
+        </li>
+    {{/users}}
+
+</ul>
+
+<hr/>
+
+
+
+
+
+
+<!-- Inicio Filtro -->
+            <div class="container-fluid pt-4 px-4">
+                <!-- form method="" action="" -->
+                    <div class="row">
+                        <div class="col-sm-12 col-xl">
+                            <div class="bg-light text-center rounded p-3">
+                                <div class="d-flex align-items-center justify-content-between mb">
+                                    
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <td scope="col" colspan="3"><h5 class="mb-0">Filtros</h6></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label>Modelo Dashboard
+                                                        <select class="btn" name="dashboardSelecionado" id="dashboardSelecionado">
+                                                            <option selected value="dashboardGeral">Regra Incorreta Geral</option>
+                                                            <option value="dashboardUnidade">Regra Incorreta Unidade</option>
+                                                            <option value="dashboardRanking">Ranking Unidade C/ Regra Incorreta</option>
+                                                        </select>
+                                                    </label>
+                                                </td>
+                                                <td>Emissão >= <input type="date" name="deEmissao" id="" class="btn"></td>
+                                                <td>Emissão <= <input type="date" name="ateEmissao" id="" class="btn"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label id="filtroUnidade" style="display: none;">Unidade
+                                                        <select class="btn" name="unidade">
+                                                            <option selected value="1">Unidade 1</option>
+                                                            <option value="2">Unidade 2</option>
+                                                            <option value="3">Unidade 3</option>
+                                                        </select>
+                                                    </label>
+                                                </td>
+                                                <td colspan="1"></td>
+                                                <td><input type='submit' class="btn" value='Filtrar' id="btnFiltro"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- /form -->
+            </div>
+            <!-- Fim Filtro -->
+
+
+
+            <!-- Inicio Dashboard -->
+            <div class="container-fluid pt-4 px-4" id="dashboardDetalhes" >
+                <div class="row">
+                    <div class="col-sm-12 col-xl">
+                        <div class="bg-light text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Relação de CTes</h6>
+                            </div>
+                            <canvas id="worldwide-sales"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fim Dashboard -->
+
+
+            <!-- Inicio tabela de dados dashboard -->
+            <div class="container-fluid pt-4 px-4" id="tabelaDetalhes" >
+                <div class="bg-light text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">CTes Errados</h6>
+                    </div>
+                    <div class="col-12">
+                        <div class="bg-light rounded h-100 p-4">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">CTe</th>
+                                            <th scope="col">Emissão</th>
+                                            <th scope="col">Agencia Emissão</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>27/08/2021</td>
+                                            <td>Unidade 1</td>
+                                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>27/08/2021</td>
+                                            <td>Unidade 1</td>
+                                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>27/08/2021</td>
+                                            <td>Unidade 1</td>
+                                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fim tabela de dados dashboard -->
+
+
+
+
+
+
+
+
+
+
+
+{{>partials/footer}}
