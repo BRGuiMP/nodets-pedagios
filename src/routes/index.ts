@@ -16,7 +16,8 @@ router.get('/listagem', ClassificaController.listagem);
 router.post('/listagem', ClassificaController.listagem);
 
 
-router.post('/cte-correto/:id/:deEmissao/:ateEmissao/add', ClassificaController.ctecorreto);
+router.post('/cte-correto/:id/:deEmissao/:ateEmissao/add', ClassificaController.cteCorreto);
+router.post('/cte-correto-sem-rota/:id/:deEmissao/:ateEmissao/add', ClassificaController.cteCorretoSemRota)
 
 
 /* router.post('/novousuario', HomeController.criandoUsuario);

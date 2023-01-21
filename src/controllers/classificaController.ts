@@ -118,40 +118,7 @@ export const listagem = async(req: Request, res: Response)=>{
     
 }
 
-async function salvaCteAutomatico(dadosCfAutomatico:any){
-    let idRotaPed=[]
-    
-    for(let j = 0; j<dadosCfAutomatico.length; j++){
-        let result = await Rota.findAll({
-            where:{
-                cd_rota: {
-                    [Op.eq]: dadosCfAutomatico[j].cd_rota
-                }
-            }
-        })
-        idRotaPed.push(result[0].idRota)
-    }
-
-    for(let i = 0; i<dadosCfAutomatico.length; i++){
-        const newCteClassificado = CteClassificado.build({
-            idRota: idRotaPed[i],
-            idClassificacao: 1,
-            dtCadastro: new Date(),
-            descObs: 'Classificado Automaticamente',
-            cd_ctrc: dadosCfAutomatico[i].TabelaCte.cd_ctrc,
-            cd_agencia: dadosCfAutomatico[i].TabelaCte.cd_agencia,
-            cd_pessoa_usuario_cancelamento: dadosCfAutomatico[i].TabelaCte.cd_pessoa_usuario_cancelamento,
-            nr_ctrc: dadosCfAutomatico[i].TabelaCte.nr_ctrc,
-            id_pedagio_cf: dadosCfAutomatico[i].id_pedagio
-        })
-        await newCteClassificado.save()
-    } 
-
-}
-
-
-
-export let ctecorreto = async (req: Request, res: Response) => {
+export let cteCorreto = async (req: Request, res: Response) => {
     let idCte = req.params.id
     let deEmissao = req.params.deEmissao
     let ateEmissao = req.params.ateEmissao
@@ -176,10 +143,6 @@ export let ctecorreto = async (req: Request, res: Response) => {
 
     if(result.length > 0){
         let dados = result[0]
-        
-        
-
-
 
         let rotaPed = await Rota.findAll({
             where: {
@@ -228,4 +191,81 @@ export let ctecorreto = async (req: Request, res: Response) => {
 
         res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
     }
+}
+
+export let cteCorretoSemRota = async (req: Request, res: Response) => {
+    let idCte = req.params.id
+    let deEmissao = req.params.deEmissao
+    let ateEmissao = req.params.ateEmissao
+
+    let result = await TabelaCf.findAll({
+        where: {
+            cd_ctrc: {
+                [Op.eq]: idCte
+            }
+        },
+        include: [
+        {
+            model: TabelaCte,
+            foreignKey: 'cd_ctrc'
+        },
+        {
+            model: TabelaRota,
+            foreignKey: 'cd_rota',
+            as: 'TabelaRota'
+        },]
+    })
+
+    if(result.length > 0){
+        let dados = result[0]
+
+        const newCteClassificado = CteClassificado.build({
+            idClassificacao: 2,
+            dtCadastro: new Date(),
+            cd_ctrc: dados.TabelaCte.cd_ctrc,
+            cd_agencia: dados.TabelaCte.cd_agencia,
+            cd_pessoa_usuario_cancelamento: dados.TabelaCte.cd_pessoa_usuario_cancelamento,
+            nr_ctrc: dados.TabelaCte.nr_ctrc,
+            id_pedagio_cf: dados.id_pedagio
+        })
+        await newCteClassificado.save()
+    }
+
+
+
+    res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
+}
+
+
+
+
+async function salvaCteAutomatico(dadosCfAutomatico:any){
+    let idRotaPed=[]
+    
+    for(let j = 0; j<dadosCfAutomatico.length; j++){
+        let result = await Rota.findAll({
+            where:{
+                cd_rota: {
+                    [Op.eq]: dadosCfAutomatico[j].cd_rota
+                }
+            }
+        })
+        idRotaPed.push(result[0].idRota)
+    }
+
+    for(let i = 0; i<dadosCfAutomatico.length; i++){
+        const newCteClassificado = CteClassificado.build({
+            idRota: idRotaPed[i],
+            idClassificacao: 1,
+            dtCadastro: new Date(),
+            descObs: 'Classificado Automaticamente',
+            cd_ctrc: dadosCfAutomatico[i].TabelaCte.cd_ctrc,
+            cd_agencia: dadosCfAutomatico[i].TabelaCte.cd_agencia,
+            cd_pessoa_usuario_cancelamento: dadosCfAutomatico[i].TabelaCte.cd_pessoa_usuario_cancelamento,
+            nr_ctrc: dadosCfAutomatico[i].TabelaCte.nr_ctrc,
+            id_pedagio_cf: dadosCfAutomatico[i].id_pedagio
+        })
+        await newCteClassificado.save()
+    } 
+
 }
