@@ -33,13 +33,12 @@ export const listagem = async(req: Request, res: Response)=>{
     let resultCteBDPed = await CteClassificado.findAll({
         attributes: ['cd_ctrc']
     })
-
     let nrCte = []
     for(let i = 0; i< resultCteBDPed.length; i++){
         nrCte.push(resultCteBDPed[i].cd_ctrc)
     }
 
-
+    //Pega o ID das rotas ja cadastradas no Banco
     let resultRotaPed = await Rota.findAll({
         attributes: ['cd_rota']
     })
@@ -49,7 +48,7 @@ export const listagem = async(req: Request, res: Response)=>{
     }
 
     
-    
+    //Pega os dados dos Ctes ainda nao classificados no Banco
     let dadosCf = await TabelaCf.findAll({
         where: {
             dt_emissao: {
@@ -78,7 +77,7 @@ export const listagem = async(req: Request, res: Response)=>{
         
     })
 
-
+    //Pega os Ctes que ainda não foram classificados, porem o ID Rota ja tenha cadastro
     let dadosCfAutomatico = await TabelaCf.findAll({
         where: {
             dt_emissao: {
@@ -121,7 +120,7 @@ export const listagem = async(req: Request, res: Response)=>{
 
 async function salvaCteAutomatico(dadosCfAutomatico:any){
     let idRotaPed=[]
-
+    
     for(let j = 0; j<dadosCfAutomatico.length; j++){
         let result = await Rota.findAll({
             where:{
@@ -130,9 +129,7 @@ async function salvaCteAutomatico(dadosCfAutomatico:any){
                 }
             }
         })
-        let dados = result[j]
-        idRotaPed.push(dados.idRota)
-        console.log(idRotaPed)
+        idRotaPed.push(result[0].idRota)
     }
 
     for(let i = 0; i<dadosCfAutomatico.length; i++){
@@ -156,7 +153,6 @@ async function salvaCteAutomatico(dadosCfAutomatico:any){
 
 export let ctecorreto = async (req: Request, res: Response) => {
     let idCte = req.params.id
-    let descObs = req.body
     let deEmissao = req.params.deEmissao
     let ateEmissao = req.params.ateEmissao
 
@@ -229,13 +225,7 @@ export let ctecorreto = async (req: Request, res: Response) => {
             })
             await newCteClassificado.save()
         }
-        
 
-        
-        
         res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
-
-
-
     }
 }
