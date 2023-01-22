@@ -1,5 +1,8 @@
 import { Request, Response } from 'express'
 import { Op } from 'sequelize'
+import { sequelizePedagio } from '../instances/mysql'
+import {Sequelize} from 'sequelize'
+
 
 
 
@@ -23,6 +26,9 @@ export const listagem = async (req: Request, res: Response) => {
     
     let totalEmissao
     let totalEmissaoErrado
+    let agenciaCount = []
+    let agenciaNm = []
+    let agenciaTotal
     if(dashboardSelecionado=='dashboardGeral'){
         totalEmissao = await TabelaCte.count({
             where:{
@@ -68,7 +74,21 @@ export const listagem = async (req: Request, res: Response) => {
         })
     }
     else{ //dashboardRanking
-
+        /* agenciaTotal = await CteClassificado.findAll({
+            where: {
+                dt_emissao: {
+                    [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
+                },
+                cd_pessoa_usuario_cancelamento:{
+                    [Op.is]: null
+                }
+            },
+            attributes: ['cd_agencia'],
+            group: ['cd_agencia'],
+            distinct: true
+            
+        }) */
+        
     }
 
     let agencia = await TabelaAgencia.findAll({})
