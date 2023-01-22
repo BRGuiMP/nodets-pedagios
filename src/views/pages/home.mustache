@@ -117,7 +117,7 @@
             </div>
             <!-- Fim tabela de dados dashboard -->
 <script>
-    let texto = '{{deEmissao}} / {{ateEmissao}}'
+    let titulo = '{{deEmissao}} / {{ateEmissao}}'
     let total = {{totalEmissao}}
     let errado = {{totalEmissaoErrado}}
 
@@ -127,7 +127,7 @@
     var myChart1 = new Chart(ctx1, {
         type: "bar",
         data: {
-            labels: [texto],
+            labels: [titulo],
             datasets: [{
                     label: "Total Emitidos",
                     data: [total],

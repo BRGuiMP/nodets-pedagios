@@ -43,7 +43,29 @@ export const listagem = async (req: Request, res: Response) => {
         })
     }
     else if(dashboardSelecionado=='dashboardUnidade') {
-
+        totalEmissao = await TabelaCte.count({
+            where: {
+                dt_emissao: {
+                    [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
+                },
+                cd_pessoa_usuario_cancelamento:{
+                    [Op.is]: null
+                },
+                cd_agencia: {
+                    [Op.eq]: unidade
+                }
+            }
+        })
+        totalEmissaoErrado = await CteClassificado.count({
+            where: {
+                idClassificacao: {
+                    [Op.eq]: 3
+                },
+                cd_agencia: {
+                    [Op.eq]: unidade
+                }
+            }
+        })
     }
     else{ //dashboardRanking
 
