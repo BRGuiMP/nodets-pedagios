@@ -30,6 +30,24 @@ export interface RotaInstanceAtua extends Model{
     id_ativo: number
 }
 
+export interface AgenciaInstanceAtua extends Model{
+    cd_agencia: number
+    nm_rota: string
+}
+
+export const TabelaAgencia = sequelizeAtua.define<AgenciaInstanceAtua>("TabelaAgencia", {
+    cd_agencia: {
+        primaryKey: true,
+        type: DataTypes.INTEGER
+    },
+    nm_agencia: {
+        type: DataTypes.STRING
+    }
+},
+{
+    tableName: 'tabelaagencia',
+    timestamps: false
+})
 
 export const TabelaRota = sequelizeAtua.define<RotaInstanceAtua>("TabelaRota", {
     cd_rota: {

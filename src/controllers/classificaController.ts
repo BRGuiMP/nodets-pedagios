@@ -274,8 +274,6 @@ export let cteCorretoSemRota = async (req: Request, res: Response) => {
         await newCteClassificado.save()
     }
 
-
-
     res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
 }
 
@@ -309,6 +307,5 @@ async function salvaCteAutomatico(dadosCfAutomatico:any){
             id_pedagio_cf: dadosCfAutomatico[i].id_pedagio
         })
         await newCteClassificado.save()
-    } 
-
+    }
 }

@@ -15,6 +15,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <form method='POST' action='/'>
                                             <tr>
                                                 <td>
                                                     <label>Modelo Dashboard
@@ -25,22 +26,23 @@
                                                         </select>
                                                     </label>
                                                 </td>
-                                                <td>Emissão >= <input type="date" name="deEmissao" id="" class="btn"></td>
-                                                <td>Emissão <= <input type="date" name="ateEmissao" id="" class="btn"></td>
+                                                <td>Emissão >= <input type="date" name="deEmissao" value="{{deEmissao}}" class="btn" required></td>
+                                                <td>Emissão <= <input type="date" name="ateEmissao" value="{{ateEmissao}}" class="btn" required></td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <label id="filtroUnidade" style="display: none;">Unidade
                                                         <select class="btn" name="unidade">
-                                                            <option selected value="1">Unidade 1</option>
-                                                            <option value="2">Unidade 2</option>
-                                                            <option value="3">Unidade 3</option>
+                                                            {{#agencia}}
+                                                                <option value="{{cd_agencia}}">{{nm_agencia}}</option>
+                                                            {{/agencia}}
                                                         </select>
                                                     </label>
                                                 </td>
                                                 <td colspan="1"></td>
                                                 <td><input type='submit' class="btn" value='Filtrar' id="btnFiltro"></td>
                                             </tr>
+                                        </form>
                                         </tbody>
                                     </table>
                                 </div>
@@ -114,9 +116,43 @@
                 </div>
             </div>
             <!-- Fim tabela de dados dashboard -->
+<script>
+    let teste = '2022'
+    let total = {{totalEmissao}}
+    let errado = {{totalEmissaoErrado}}
 
+    // Grafico de relação de pedagios
+    
+    var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
+    var myChart1 = new Chart(ctx1, {
+        type: "bar",
+        data: {
+            labels: [teste],
+            datasets: [{
+                    label: "Total Emitidos",
+                    data: [total],
+                    backgroundColor: "rgba(0, 156, 255, .7)"
+                },
+                {
+                    label: "CTes C/ Regra Errada",
+                    data: [errado],
+                    backgroundColor: "rgba(255, 255, 0, .7)"
+                },
+                {
+                    label: "Relação %",
+                    data: [((errado*100)/total).toFixed(2)],
+                    backgroundColor: "rgba(255, 0, 0, .7)"
+                }
+            ]
+            },
+        options: {
+            responsive: true
+        }
+    });
 
+</script>
 
+    
 
 
 
