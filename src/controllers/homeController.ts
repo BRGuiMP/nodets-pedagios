@@ -51,7 +51,7 @@ export const listagem = async (req: Request, res: Response) => {
 
     let agencia = await TabelaAgencia.findAll({})
 
-    console.log(totalEmissao)
+    
     res.render('pages/home', {
         agencia,
         totalEmissao,
