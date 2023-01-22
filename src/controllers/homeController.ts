@@ -1,8 +1,6 @@
 import { Request, Response } from 'express'
 import { Op } from 'sequelize'
 import { sequelizePedagio } from '../instances/mysql'
-import {Sequelize} from 'sequelize'
-
 
 
 
