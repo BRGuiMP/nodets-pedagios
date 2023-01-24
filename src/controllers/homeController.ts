@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
-import { type } from 'os'
-import { Op } from 'sequelize'
+import { Op, Sequelize } from 'sequelize'
 
 
 
@@ -27,7 +26,9 @@ export const listagem = async (req: Request, res: Response) => {
     let totalCtesErrados
     let agenciaCount = []
     let agenciaNm = []
+    let agenciaFila = []
     let agenciaTotal
+    
     if(dashboardSelecionado=='dashboardGeral'){
         totalEmissao = await TabelaCte.count({
             where:{
@@ -102,7 +103,10 @@ export const listagem = async (req: Request, res: Response) => {
         })
     }
     else{ //dashboardRanking
-        /* agenciaTotal = await CteClassificado.findAll({
+        agenciaTotal = await CteClassificado.findAll({
+            attributes: [
+                [Sequelize.fn('DISTINCT', Sequelize.col('cd_agencia')), 'cd_agencia']
+            ],
             where: {
                 dt_emissao: {
                     [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
@@ -110,18 +114,50 @@ export const listagem = async (req: Request, res: Response) => {
                 cd_pessoa_usuario_cancelamento:{
                     [Op.is]: null
                 }
-            },
-            attributes: ['cd_agencia'],
-            group: ['cd_agencia'],
-            distinct: true
-            
-        }) */
+            }
+        })
+
+        for(let i = 0; i< agenciaTotal.length; i++){
+            agenciaFila.push(agenciaTotal[i].cd_agencia)
+        }
+        for(let j = 0; j<agenciaTotal.length; j++){
+            let result = await TabelaCte.count({
+                where: {
+                    dt_emissao: {
+                        [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
+                    },
+                    cd_pessoa_usuario_cancelamento:{
+                        [Op.is]: null
+                    },
+                    cd_agencia: {
+                        [Op.eq]: agenciaFila[j]
+                    }
+                }
+            })
+            agenciaCount.push(result)
+        }
+        for(let k = 0; k<agenciaTotal.length; k++){
+            let result = await TabelaAgencia.findAll({
+                attributes: ['nm_agencia'],
+                where: {
+                    cd_agencia: {
+                        [Op.eq]: agenciaFila[k]
+                    }
+                }
+            })
+            agenciaNm.push(result[0].nm_agencia)
+        }
         
     }
 
-    let agencia = await TabelaAgencia.findAll({})
-
     
+    let rankingAgencia ={
+        agenciaFila,
+        agenciaCount,
+        agenciaNm
+    }
+
+    let agencia = await TabelaAgencia.findAll({})    
 
 
     res.render('pages/home', {
@@ -130,6 +166,9 @@ export const listagem = async (req: Request, res: Response) => {
         deEmissao,
         ateEmissao,
         totalEmissaoErrado,
-        totalCtesErrados
+        totalCtesErrados,
+        agenciaFila,
+        agenciaCount,
+        agenciaNm
     })
 }
