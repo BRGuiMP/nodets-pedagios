@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
+import { type } from 'os'
 import { Op } from 'sequelize'
 
 
 
 import { TabelaAgencia, TabelaCf, TabelaCte, TabelaRota } from '../models/Atua'
-import { Usuario, Rota, Classificador, CteClassificado } from '../models/Pedagio'
+import { Usuario, Rota, Classificador, CteClassificado, CteClassificadoInstancePed } from '../models/Pedagio'
 
 
 
@@ -23,6 +24,7 @@ export const listagem = async (req: Request, res: Response) => {
     
     let totalEmissao
     let totalEmissaoErrado
+    let totalCtesErrados
     let agenciaCount = []
     let agenciaNm = []
     let agenciaTotal
@@ -39,6 +41,19 @@ export const listagem = async (req: Request, res: Response) => {
         })
         totalEmissaoErrado = await CteClassificado.count({
             where: {
+                dt_emissao: {
+                    [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
+                },
+                idClassificacao: {
+                    [Op.eq]: 3
+                }
+            }
+        })
+        totalCtesErrados = await CteClassificado.findAll({
+            where: {
+                dt_emissao: {
+                    [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
+                },
                 idClassificacao: {
                     [Op.eq]: 3
                 }
@@ -61,6 +76,22 @@ export const listagem = async (req: Request, res: Response) => {
         })
         totalEmissaoErrado = await CteClassificado.count({
             where: {
+                dt_emissao: {
+                    [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
+                },
+                idClassificacao: {
+                    [Op.eq]: 3
+                },
+                cd_agencia: {
+                    [Op.eq]: unidade
+                }
+            }
+        })
+        totalCtesErrados = await CteClassificado.findAll({
+            where: {
+                dt_emissao: {
+                    [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
+                },
                 idClassificacao: {
                     [Op.eq]: 3
                 },
@@ -91,11 +122,14 @@ export const listagem = async (req: Request, res: Response) => {
     let agencia = await TabelaAgencia.findAll({})
 
     
+
+
     res.render('pages/home', {
         agencia,
         totalEmissao,
         deEmissao,
         ateEmissao,
-        totalEmissaoErrado
+        totalEmissaoErrado,
+        totalCtesErrados
     })
 }

@@ -90,24 +90,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>27/08/2021</td>
-                                            <td>Unidade 1</td>
-                                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>27/08/2021</td>
-                                            <td>Unidade 1</td>
-                                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>27/08/2021</td>
-                                            <td>Unidade 1</td>
-                                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                        </tr>
+                                    {{#totalCtesErrados}}
+                                            <tr>
+                                                <th scope="row">{{nr_ctrc}}</th>
+                                                <td>{{dt_emissao}}</td>
+                                                <td>
+                                                    {{cd_agencia}}
+                                                </td>
+                                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                            </tr>
+                                    {{/totalCtesErrados}}
                                     </tbody>
                                 </table>
                             </div>

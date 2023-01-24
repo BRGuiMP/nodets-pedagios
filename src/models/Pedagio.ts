@@ -27,6 +27,7 @@ export interface CteClassificadoInstancePed extends Model {
     dtCadastro: Date
     descObs: string
     cd_ctrc: number
+    dt_emissao: Date
     cd_agencia: number
     cd_pessoa_usuario_cancelamento: number
     nr_ctrc: number
@@ -122,6 +123,9 @@ export const CteClassificado = sequelizePedagio.define<CteClassificadoInstancePe
     },
     cd_ctrc: {
         type: DataTypes.INTEGER
+    },
+    dt_emissao: {
+        type: DataTypes.DATE
     },
     cd_agencia: {
         type: DataTypes.INTEGER
