@@ -24,8 +24,8 @@ export const listagem = async (req: Request, res: Response) => {
     let totalEmissao
     let totalEmissaoErrado
     let totalCtesErrados
-    let agenciaCount = []
-    let agenciaNm = []
+    let agenciaCount:any = []
+    let agenciaNm:any = []
     let agenciaFila = []
     let agenciaTotal
     
@@ -151,14 +151,27 @@ export const listagem = async (req: Request, res: Response) => {
     }
 
     
-    let rankingAgencia ={
-        agenciaFila,
-        agenciaCount,
-        agenciaNm
-    }
+   
 
     let agencia = await TabelaAgencia.findAll({})    
 
+
+    const total = agenciaFila.map((fila, index) => {
+        return {
+          cd_agencia: fila,
+          nm_agencia: agenciaNm[index],
+          count: agenciaCount[index]
+        }
+    })
+
+
+    /* {{#total}}
+                {
+                    label: "{{nm_agencia}}",
+                    data: [{{count}}],
+                    backgroundColor: "rgba(255, 0, 0, .7)"
+                },
+                {{/total}} */
 
     res.render('pages/home', {
         agencia,
@@ -167,8 +180,6 @@ export const listagem = async (req: Request, res: Response) => {
         ateEmissao,
         totalEmissaoErrado,
         totalCtesErrados,
-        agenciaFila,
-        agenciaCount,
-        agenciaNm
+        total
     })
 }
