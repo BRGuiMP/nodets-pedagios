@@ -129,7 +129,7 @@ export const listagem = async (req: Request, res: Response) => {
             rando1.push(randomico)
         }
         for(let j = 0; j<agenciaTotal.length; j++){
-            let result = await TabelaCte.count({
+            let result = await CteClassificado.count({
                 where: {
                     dt_emissao: {
                         [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
@@ -139,6 +139,9 @@ export const listagem = async (req: Request, res: Response) => {
                     },
                     cd_agencia: {
                         [Op.eq]: agenciaFila[j]
+                    },
+                    idClassificacao: {
+                        [Op.eq]: 3
                     }
                 }
             })
