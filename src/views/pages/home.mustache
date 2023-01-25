@@ -110,6 +110,7 @@
             <!-- Fim tabela de dados dashboard -->
 <script>
     let titulo = '{{deEmissao}} / {{ateEmissao}}'
+    {{#verificador}}
     let total = {{totalEmissao}}
     let errado = {{totalEmissaoErrado}}
 
@@ -141,7 +142,30 @@
             responsive: true
         }
     });
+    {{/verificador}}
+    {{^verificador}}
 
+    var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
+    var myChart1 = new Chart(ctx1, {
+        type: "bar",
+        data: {
+            labels: [titulo],
+            datasets: [
+                {{#total}}
+                {
+                    label: "{{nm_agencia}}",
+                    data: [{{count}}],
+                    backgroundColor: "rgba({{rando1}}, {{rando2}}, {{rando3}}, .7)"
+                },
+                {{/total}}              
+            ]
+            },
+        options: {
+            responsive: true
+        }
+    });
+
+    {{/verificador}}
 </script>
 
     
