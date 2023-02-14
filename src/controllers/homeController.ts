@@ -119,6 +119,9 @@ export const listagem = async (req: Request, res: Response) => {
                 },
                 cd_pessoa_usuario_cancelamento:{
                     [Op.is]: null
+                },
+                idClassificacao: {
+                    [Op.eq]: 3
                 }
             }
         })
