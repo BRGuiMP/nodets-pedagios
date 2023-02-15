@@ -195,7 +195,10 @@ export const listagem = async (req: Request, res: Response) => {
         }
     })
 
-
+    total.sort(function(a, b) {
+        return b.count - a.count;
+    })
+    
     res.render('pages/home', {
         agencia,
         totalEmissao,
