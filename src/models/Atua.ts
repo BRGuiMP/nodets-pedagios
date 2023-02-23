@@ -35,6 +35,26 @@ export interface AgenciaInstanceAtua extends Model{
     nm_agencia: string
 }
 
+export interface CidadeInstanceAtua extends Model{
+    cd_cidade: number
+    nm_cidade: string
+}
+
+export const Cidade = sequelizeAtua.define<CidadeInstanceAtua>("Cidade", {
+    cd_cidade: {
+        primaryKey: true,
+        type: DataTypes.INTEGER
+    },
+    nm_cidade: {
+        type: DataTypes.STRING
+    }
+},
+{
+    tableName: 'cidade',
+    timestamps: false
+})
+
+
 export const TabelaAgencia = sequelizeAtua.define<AgenciaInstanceAtua>("TabelaAgencia", {
     cd_agencia: {
         primaryKey: true,
@@ -45,7 +65,7 @@ export const TabelaAgencia = sequelizeAtua.define<AgenciaInstanceAtua>("TabelaAg
     }
 },
 {
-    tableName: 'tabelaagencia',
+    tableName: 'agencia',
     timestamps: false
 })
 
@@ -55,10 +75,18 @@ export const TabelaRota = sequelizeAtua.define<RotaInstanceAtua>("TabelaRota", {
         type: DataTypes.INTEGER
     },
     cd_cidade_origem: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+            model: Cidade,
+            key: 'cd_cidade'
+        }
     },
     cd_cidade_destino: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+            model: Cidade,
+            key: 'cd_cidade'
+        }
     },
     nm_rota: {
         type: DataTypes.STRING
@@ -74,7 +102,7 @@ export const TabelaRota = sequelizeAtua.define<RotaInstanceAtua>("TabelaRota", {
     }
 },
 {
-    tableName: 'tabelarota',
+    tableName: 'rota',
     timestamps: false
 })
 
@@ -101,7 +129,7 @@ export const TabelaCte = sequelizeAtua.define<CteInstanceAtua>("TabelaCte", {
     }
 },
 {
-    tableName: 'tabelacte',
+    tableName: 'ctrc',
     timestamps: false
 })
 
@@ -115,6 +143,7 @@ export const TabelaCf = sequelizeAtua.define<CfInstanceAtua>("TabelaCf", {
         }
     },
     nr_carta_frete: {
+        primaryKey: true,
         type: DataTypes.INTEGER
     },
     id_pedagio: {
@@ -132,7 +161,7 @@ export const TabelaCf = sequelizeAtua.define<CfInstanceAtua>("TabelaCf", {
     }
 },
 {
-    tableName: 'tabelacf',
+    tableName: 'carta_frete',
     timestamps: false
 })
 
@@ -142,3 +171,4 @@ TabelaCf.belongsTo(TabelaRota, { foreignKey: 'cd_rota', as: 'TabelaRota'})
 
 TabelaCte.hasOne(TabelaCf, { foreignKey: 'cd_ctrc'})
 TabelaCf.belongsTo(TabelaCte, { foreignKey: 'cd_ctrc'})
+

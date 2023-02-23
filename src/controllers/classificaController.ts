@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 
 
 
-import { TabelaCf, TabelaCte, TabelaRota } from '../models/Atua';
+import { Cidade, TabelaCf, TabelaCte, TabelaRota } from '../models/Atua';
 import { Usuario, Rota, Classificador, CteClassificado } from '../models/Pedagio';
 
 
@@ -73,7 +73,7 @@ export const listagem = async(req: Request, res: Response)=>{
             model: TabelaRota,
             foreignKey: 'cd_rota',
             as: 'TabelaRota'
-        },]
+        }]
         
     })
 
