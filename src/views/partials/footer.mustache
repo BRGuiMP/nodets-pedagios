@@ -44,7 +44,9 @@
     <script src="js/main.js"></script>
 
     <script>
-        
+        async function salvaobs(value, id){
+            const response = await fetch(`http://localhost:8080/salvaobs/${value}/${id}`);
+        }
         
 
         // Mostra/retira opção de unidades

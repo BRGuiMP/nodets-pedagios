@@ -126,6 +126,22 @@ export const TabelaCte = sequelizeAtua.define<CteInstanceAtua>("TabelaCte", {
     },
     dt_emissao: {
         type: DataTypes.DATE
+    },cd_cidade_origem: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Cidade,
+            key: 'cd_cidade'
+        }
+    },
+    cd_cidade_destino: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Cidade,
+            key: 'cd_cidade'
+        }
+    },
+    nr_embarque: {
+        type: DataTypes.INTEGER
     }
 },
 {

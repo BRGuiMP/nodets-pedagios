@@ -20,6 +20,6 @@ router.post('/cte-correto/:id/:deEmissao/:ateEmissao/add', ClassificaController.
 router.post('/cte-errado/:id/:deEmissao/:ateEmissao/add', ClassificaController.cteErrado)
 router.post('/cte-correto-sem-rota/:id/:deEmissao/:ateEmissao/add', ClassificaController.cteCorretoSemRota)
 
-
+router.get('/salvaobs/:obs/:idCte', ClassificaController.salvaObs)
 
 export default router

@@ -281,7 +281,12 @@ export let cteCorretoSemRota = async (req: Request, res: Response) => {
     res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
 }
 
+export const salvaObs = async (req: Request, res: Response) => {
+    let {obs, idCte} = req.params
 
+    console.log(obs, idCte)
+    
+}
 
 
 async function salvaCteAutomatico(dadosCfAutomatico:any){

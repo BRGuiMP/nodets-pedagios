@@ -45,6 +45,7 @@
                                             <th scope="col">Agencia</th>
                                             <th scope="col">Origem</th>
                                             <th scope="col">Destino</th>
+                                            <th scope="col">Embarque</th>
                                             <th scope="col">Rota</th>
                                             <th colspan="2" scope="col">Classificação</th>
                                         </tr>
@@ -56,8 +57,9 @@
                                             <th scope="row">{{TabelaCte.nr_ctrc}}</th>
                                             <td>{{TabelaCte.dt_emissao}}</td>
                                             <td>{{TabelaCte.cd_agencia}}</td>
-                                            <td>{{TabelaRota.cd_cidade_origem}}</td>
-                                            <td>{{TabelaRota.cd_cidade_destino}}</td>
+                                            <td>{{TabelaCte.cd_cidade_origem}}</td>
+                                            <td>{{TabelaCte.cd_cidade_destino}}</td>
+                                            <td>{{TabelaCte.nr_embarque}}</td>
                                             <td>{{TabelaRota.nm_rota}}</td>
                                             <td>
                                                 <form method = 'POST' action='/cte-correto/{{TabelaCte.cd_ctrc}}/{{deEmissao}}/{{ateEmissao}}/add'>
@@ -71,7 +73,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="6"></td>
+                                            <td colspan="7"></td>
                                             <td colspan="2">
                                                 <form method = 'POST' action='/cte-correto-sem-rota/{{TabelaCte.cd_ctrc}}/{{deEmissao}}/{{ateEmissao}}/add'>
                                                     <input type='submit' class="btn btn-primary btn-sm" value='CTe Regra Correta Sem Rota' id="btnFiltro">
@@ -79,9 +81,9 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="8">
+                                            <td colspan="9">
                                                 <div class="input-group">
-                                                    <span class="input-group-text">Observação</span><textarea class="form-control" name="descObs" rows="1"></textarea>
+                                                    <span class="input-group-text">Observação</span><textarea class="form-control" name="descObs" rows="1" id="salvaCte" value='' onblur="salvaobs(value, {{TabelaCte.cd_ctrc}})"></textarea>
                                                 </div>
                                             </td>
                                         </tr>
