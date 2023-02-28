@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
+import { Where } from 'sequelize/types/utils';
 
 
 
@@ -18,9 +19,7 @@ export const classificador = async (req: Request, res: Response)=>{
 
 export const listagem = async(req: Request, res: Response)=>{
     
-    let {deEmissao, ateEmissao} = req.body
-    
-    
+    let {deEmissao, ateEmissao} = req.body   
 
     if(deEmissao == undefined && ateEmissao == undefined){
         let dados = req.query; 
@@ -31,7 +30,12 @@ export const listagem = async(req: Request, res: Response)=>{
 
     //Pega o numero dos ctes ja classificados no sistema
     let resultCteBDPed = await CteClassificado.findAll({
-        attributes: ['cd_ctrc']
+        attributes: ['cd_ctrc'],
+        where: {
+            idClassificacao:{
+                [Op.ne]: null
+            }
+        }
     })
     let nrCte = []
     for(let i = 0; i< resultCteBDPed.length; i++){
@@ -46,7 +50,6 @@ export const listagem = async(req: Request, res: Response)=>{
     for(let i = 0; i < resultRotaPed.length; i++){
         nrRota.push(resultRotaPed[i].cd_rota)
     }
-
     
     //Pega os dados dos Ctes ainda nao classificados no Banco
     let dadosCf = await TabelaCf.findAll({
@@ -102,11 +105,8 @@ export const listagem = async(req: Request, res: Response)=>{
             model: TabelaRota,
             foreignKey: 'cd_rota',
             as: 'TabelaRota'
-        },]
-        
-    })
-
-    
+        },]       
+    })   
     
     salvaCteAutomatico(dadosCfAutomatico)
 
@@ -114,8 +114,7 @@ export const listagem = async(req: Request, res: Response)=>{
         dadosCf,
         deEmissao,
         ateEmissao
-      })
-    
+      })  
 }
 
 export let cteCorreto = async (req: Request, res: Response) => {
@@ -173,8 +172,7 @@ export let cteCorreto = async (req: Request, res: Response) => {
                 nr_ctrc: dados.TabelaCte.nr_ctrc,
                 id_pedagio_cf: dados.id_pedagio
             })
-            await newCteClassificado.save()
-            
+            await newCteClassificado.save()            
         }
         else{
             const newCteClassificado = CteClassificado.build({
@@ -234,8 +232,6 @@ export let cteErrado =async (req: Request, res: Response) => {
         await newCteClassificado.save()
     }
 
-
-
     res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
 }
 
@@ -284,8 +280,26 @@ export let cteCorretoSemRota = async (req: Request, res: Response) => {
 export const salvaObs = async (req: Request, res: Response) => {
     let {obs, idCte} = req.params
 
-    console.log(obs, idCte)
-    
+    const result = await CteClassificado.findAll({
+        where: {
+            cd_ctrc: {
+                [Op.eq]: idCte
+            }                
+        }
+    })
+
+    if(result.length > 0){
+        let dados = result[0]
+        dados.descObs= obs;
+        dados.cd_ctrc = parseInt(idCte)
+        await dados.save()
+    }else{
+        const newObservacao = CteClassificado.build({
+            descObs: obs,
+            cd_ctrc: idCte
+        })
+        await newObservacao.save()
+    }  
 }
 
 
