@@ -172,7 +172,7 @@ export let cteCorreto = async (req: Request, res: Response) => {
             if(resultCteClassificado.length>0){
 
                 let dadosClassificado = resultCteClassificado[0]
-                
+
                 dadosClassificado.idRota = newRotaId
                 dadosClassificado.idClassificacao = 1
                 dadosClassificado.dtCadastro = new Date()
@@ -254,17 +254,34 @@ export let cteErrado =async (req: Request, res: Response) => {
     if(result.length > 0){
         let dados = result[0]
 
-        const newCteClassificado = CteClassificado.build({
-            idClassificacao: 3,
-            dtCadastro: new Date(),
-            cd_ctrc: dados.TabelaCte.cd_ctrc,
-            dt_emissao: dados.dt_emissao,
-            cd_agencia: dados.TabelaCte.cd_agencia,
-            cd_pessoa_usuario_cancelamento: dados.TabelaCte.cd_pessoa_usuario_cancelamento,
-            nr_ctrc: dados.TabelaCte.nr_ctrc,
-            id_pedagio_cf: dados.id_pedagio
-        })
-        await newCteClassificado.save()
+        if(resultCteClassificado.length>0){
+            let dadosClassificado = resultCteClassificado[0]
+
+            dadosClassificado.idClassificacao = 3
+            dadosClassificado.dtCadastro = new Date()
+            dadosClassificado.cd_ctrc = dados.TabelaCte.cd_ctrc
+            dadosClassificado.dt_emissao = dados.dt_emissao
+            dadosClassificado.cd_agencia = dados.TabelaCte.cd_agencia
+            dadosClassificado.cd_pessoa_usuario_cancelamento = dados.TabelaCte.cd_pessoa_usuario_cancelamento
+            dadosClassificado.nr_ctrc = dados.TabelaCte.nr_ctrc
+            dadosClassificado.id_pedagio_cf = dados.id_pedagio
+
+            dadosClassificado.save()
+        }
+        else{
+            const newCteClassificado = CteClassificado.build({
+                idClassificacao: 3,
+                dtCadastro: new Date(),
+                cd_ctrc: dados.TabelaCte.cd_ctrc,
+                dt_emissao: dados.dt_emissao,
+                cd_agencia: dados.TabelaCte.cd_agencia,
+                cd_pessoa_usuario_cancelamento: dados.TabelaCte.cd_pessoa_usuario_cancelamento,
+                nr_ctrc: dados.TabelaCte.nr_ctrc,
+                id_pedagio_cf: dados.id_pedagio
+            })
+            await newCteClassificado.save()
+        }
+        
     }
 
     res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
@@ -293,20 +310,45 @@ export let cteCorretoSemRota = async (req: Request, res: Response) => {
         },]
     })
 
+    let resultCteClassificado = await CteClassificado.findAll({
+        where: {
+            cd_ctrc: {
+                [Op.eq]: idCte
+            }
+        }
+    })
+
     if(result.length > 0){
         let dados = result[0]
 
-        const newCteClassificado = CteClassificado.build({
-            idClassificacao: 2,
-            dtCadastro: new Date(),
-            cd_ctrc: dados.TabelaCte.cd_ctrc,
-            dt_emissao: dados.dt_emissao,
-            cd_agencia: dados.TabelaCte.cd_agencia,
-            cd_pessoa_usuario_cancelamento: dados.TabelaCte.cd_pessoa_usuario_cancelamento,
-            nr_ctrc: dados.TabelaCte.nr_ctrc,
-            id_pedagio_cf: dados.id_pedagio
-        })
-        await newCteClassificado.save()
+        if(resultCteClassificado.length>0){
+            let dadosClassificado = resultCteClassificado[0]
+
+            dadosClassificado.idClassificacao = 2
+            dadosClassificado.dtCadastro = new Date()
+            dadosClassificado.cd_ctrc = dados.TabelaCte.cd_ctrc
+            dadosClassificado.dt_emissao = dados.dt_emissao
+            dadosClassificado.cd_agencia = dados.TabelaCte.cd_agencia
+            dadosClassificado.cd_pessoa_usuario_cancelamento = dados.TabelaCte.cd_pessoa_usuario_cancelamento
+            dadosClassificado.nr_ctrc = dados.TabelaCte.nr_ctrc
+            dadosClassificado.id_pedagio_cf = dados.id_pedagio
+
+            dadosClassificado.save()
+        }
+        else{
+            const newCteClassificado = CteClassificado.build({
+                idClassificacao: 2,
+                dtCadastro: new Date(),
+                cd_ctrc: dados.TabelaCte.cd_ctrc,
+                dt_emissao: dados.dt_emissao,
+                cd_agencia: dados.TabelaCte.cd_agencia,
+                cd_pessoa_usuario_cancelamento: dados.TabelaCte.cd_pessoa_usuario_cancelamento,
+                nr_ctrc: dados.TabelaCte.nr_ctrc,
+                id_pedagio_cf: dados.id_pedagio
+            })
+            await newCteClassificado.save()
+        }
+        
     }
 
     res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
