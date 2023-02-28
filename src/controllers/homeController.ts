@@ -184,7 +184,7 @@ export const listagem = async (req: Request, res: Response) => {
     let agencia = await TabelaAgencia.findAll({})    
 
 
-    const total = agenciaFila.map((fila, index) => {
+    let total = agenciaFila.map((fila, index) => {
         return {
           cd_agencia: fila,
           nm_agencia: agenciaNm[index],

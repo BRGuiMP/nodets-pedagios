@@ -117,7 +117,7 @@ export const listagem = async(req: Request, res: Response)=>{
       })  
 }
 
-export let cteCorreto = async (req: Request, res: Response) => {
+export const cteCorreto = async (req: Request, res: Response) => {
     let idCte = req.params.id
     let deEmissao = req.params.deEmissao
     let ateEmissao = req.params.ateEmissao
@@ -220,7 +220,7 @@ export let cteCorreto = async (req: Request, res: Response) => {
     }
 }
 
-export let cteErrado =async (req: Request, res: Response) => {
+export const cteErrado =async (req: Request, res: Response) => {
     let idCte = req.params.id
     let deEmissao = req.params.deEmissao
     let ateEmissao = req.params.ateEmissao
@@ -287,7 +287,7 @@ export let cteErrado =async (req: Request, res: Response) => {
     res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
 }
 
-export let cteCorretoSemRota = async (req: Request, res: Response) => {
+export const cteCorretoSemRota = async (req: Request, res: Response) => {
     let idCte = req.params.id
     let deEmissao = req.params.deEmissao
     let ateEmissao = req.params.ateEmissao
@@ -370,7 +370,8 @@ export const salvaObs = async (req: Request, res: Response) => {
         dados.descObs= obs;
         dados.cd_ctrc = parseInt(idCte)
         await dados.save()
-    }else{
+    }
+    else{
         const newObservacao = CteClassificado.build({
             descObs: obs,
             cd_ctrc: idCte
