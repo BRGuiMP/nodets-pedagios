@@ -32,7 +32,7 @@ export interface CteClassificadoInstancePed extends Model {
     cd_pessoa_usuario_cancelamento: number
     nr_ctrc: number
     id_pedagio_cf: number
-    idClassificaco: number
+    idClassificacao: number
 }
 
 export const Usuario = sequelizePedagio.define<UsuarioInstancePed>("Usuario", {

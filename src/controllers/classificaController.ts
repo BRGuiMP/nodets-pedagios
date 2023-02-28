@@ -170,15 +170,17 @@ export let cteCorreto = async (req: Request, res: Response) => {
             const newRotaId = newRota.get('idRota');
 
             if(resultCteClassificado.length>0){
+
                 let dadosClassificado = resultCteClassificado[0]
+                
                 dadosClassificado.idRota = newRotaId
-                dadosClassificado.idClassificaco = 1
-                dadosClassificado.dtCadastro = new Date(),
-                dadosClassificado.cd_ctrc = dados.TabelaCte.cd_ctrc,
-                dadosClassificado.dt_emissao = dados.dt_emissao,
-                dadosClassificado.cd_agencia = dados.TabelaCte.cd_agencia,
-                dadosClassificado.cd_pessoa_usuario_cancelamento = dados.TabelaCte.cd_pessoa_usuario_cancelamento,
-                dadosClassificado.nr_ctrc = dados.TabelaCte.nr_ctrc,
+                dadosClassificado.idClassificacao = 1
+                dadosClassificado.dtCadastro = new Date()
+                dadosClassificado.cd_ctrc = dados.TabelaCte.cd_ctrc
+                dadosClassificado.dt_emissao = dados.dt_emissao
+                dadosClassificado.cd_agencia = dados.TabelaCte.cd_agencia
+                dadosClassificado.cd_pessoa_usuario_cancelamento = dados.TabelaCte.cd_pessoa_usuario_cancelamento
+                dadosClassificado.nr_ctrc = dados.TabelaCte.nr_ctrc
                 dadosClassificado.id_pedagio_cf = dados.id_pedagio
 
                 dadosClassificado.save()
@@ -199,7 +201,7 @@ export let cteCorreto = async (req: Request, res: Response) => {
             }
                        
         }
-        else{
+        /* else{ //ACREDITO Q NUNCA ENTRE NO SENAO AQUI, POR QUE SE TIVER ROTA CADASTRADA, VAI IR PARA CLASSIFICAÇÃO AUTOMATICA
             const newCteClassificado = CteClassificado.build({
                 idRota: resultRotaPed.idRota,
                 idClassificacao: 1,
@@ -212,7 +214,7 @@ export let cteCorreto = async (req: Request, res: Response) => {
                 id_pedagio_cf: dados.id_pedagio
             })
             await newCteClassificado.save()
-        }
+        } */
 
         res.redirect(`/listagem?deEmissao=${deEmissao}&ateEmissao=${ateEmissao}`);
     }
@@ -239,6 +241,14 @@ export let cteErrado =async (req: Request, res: Response) => {
             foreignKey: 'cd_rota',
             as: 'TabelaRota'
         },]
+    })
+
+    let resultCteClassificado = await CteClassificado.findAll({
+        where: {
+            cd_ctrc: {
+                [Op.eq]: idCte
+            }
+        }
     })
 
     if(result.length > 0){
