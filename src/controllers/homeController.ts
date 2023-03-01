@@ -25,14 +25,14 @@ export const listagem = async (req: Request, res: Response) => {
     let totalEmissao
     let totalEmissaoErrado
     let totalCtesErrados
-    let agenciaCount:any = []
-    let agenciaNm:any = []
+    let agenciaCount:number[] = []
+    let agenciaNm:string[] = []
     let agenciaFila = []
     let agenciaTotal
     let verificador = false
-    let rando1:any = []
-    let rando2:any = []
-    let rando3:any = []
+    let rando1:number[] = []
+    let rando2:number[] = []
+    let rando3:number[] = []
     
     if(dashboardSelecionado=='dashboardGeral'){
         verificador = true

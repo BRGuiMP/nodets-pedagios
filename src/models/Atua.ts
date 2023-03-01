@@ -40,7 +40,7 @@ export interface CidadeInstanceAtua extends Model{
     nm_cidade: string
 }
 
-export const Cidade = sequelizeAtua.define<CidadeInstanceAtua>("Cidade", {
+export const TabelaCidade = sequelizeAtua.define<CidadeInstanceAtua>("Cidade", {
     cd_cidade: {
         primaryKey: true,
         type: DataTypes.INTEGER
@@ -77,14 +77,14 @@ export const TabelaRota = sequelizeAtua.define<RotaInstanceAtua>("TabelaRota", {
     cd_cidade_origem: {
         type: DataTypes.INTEGER,
         references: {
-            model: Cidade,
+            model: TabelaCidade,
             key: 'cd_cidade'
         }
     },
     cd_cidade_destino: {
         type: DataTypes.INTEGER,
         references: {
-            model: Cidade,
+            model: TabelaCidade,
             key: 'cd_cidade'
         }
     },
@@ -129,14 +129,14 @@ export const TabelaCte = sequelizeAtua.define<CteInstanceAtua>("TabelaCte", {
     },cd_cidade_origem: {
         type: DataTypes.INTEGER,
         references: {
-            model: Cidade,
+            model: TabelaCidade,
             key: 'cd_cidade'
         }
     },
     cd_cidade_destino: {
         type: DataTypes.INTEGER,
         references: {
-            model: Cidade,
+            model: TabelaCidade,
             key: 'cd_cidade'
         }
     },
@@ -188,3 +188,13 @@ TabelaCf.belongsTo(TabelaRota, { foreignKey: 'cd_rota', as: 'TabelaRota'})
 TabelaCte.hasOne(TabelaCf, { foreignKey: 'cd_ctrc'})
 TabelaCf.belongsTo(TabelaCte, { foreignKey: 'cd_ctrc'})
 
+
+TabelaAgencia.hasMany(TabelaCte, { foreignKey: 'cd_agencia', as: 'TabelaAgencia'})
+TabelaCte.belongsTo(TabelaAgencia, { foreignKey: 'cd_agencia', as: 'TabelaAgencia'})
+
+
+TabelaCte.belongsTo(TabelaCidade, { foreignKey: 'cd_cidade_origem', as: 'TabelaCidadeOrigem'});
+TabelaCte.belongsTo(TabelaCidade, { foreignKey: 'cd_cidade_destino', as: 'TabelaCidadeDestino'});
+
+TabelaCidade.hasMany(TabelaCte, { foreignKey: 'cd_cidade_origem', as: 'TabelaCidadeOrigem'});
+TabelaCidade.hasMany(TabelaCte, { foreignKey: 'cd_cidade_destino', as: 'TabelaCidadeDestino'});

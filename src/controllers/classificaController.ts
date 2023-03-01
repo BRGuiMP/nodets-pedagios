@@ -6,7 +6,7 @@ import { creatMenuObject } from '../helpers/createMenuObsect';
 
 
 
-import { Cidade, TabelaCf, TabelaCte, TabelaRota } from '../models/Atua';
+import { TabelaCidade, TabelaCf, TabelaCte, TabelaRota, TabelaAgencia } from '../models/Atua';
 import { Usuario, Rota, Classificador, CteClassificado } from '../models/Pedagio';
 
 
@@ -71,15 +71,33 @@ export const listagem = async(req: Request, res: Response)=>{
         include: [
         {
             model: TabelaCte,
-            foreignKey: 'cd_ctrc'
+            foreignKey: 'cd_ctrc',
+            include: [
+                {
+                    model: TabelaAgencia,
+                    foreignKey: 'cd_agencia',
+                    as: 'TabelaAgencia'
+                },
+                {
+                    model: TabelaCidade,
+                    foreignKey: 'cd_cidade_origem',
+                    as: 'TabelaCidadeOrigem'
+                },
+                {
+                    model: TabelaCidade,
+                    foreignKey: 'cd_cidade_destino',
+                    as: 'TabelaCidadeDestino'
+                }
+            ]
         },
         {
             model: TabelaRota,
             foreignKey: 'cd_rota',
             as: 'TabelaRota'
-        }]
-        
+        }]        
     })
+
+    
 
     //Pega os Ctes que ainda não foram classificados, porem o ID Rota ja tenha cadastro
     let dadosCfAutomatico = await TabelaCf.findAll({
