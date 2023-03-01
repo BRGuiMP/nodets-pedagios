@@ -10,8 +10,23 @@ import { creatMenuObject } from '../helpers/createMenuObsect'
 
 
 export const home = async (req: Request, res: Response)=>{
-    let agencia = await TabelaAgencia.findAll({})
+    let agencia = await TabelaAgencia.findAll({
+        where: {
+            id_ativo:{
+                [Op.eq]: 1
+            }
+        }
+    })
 
+    agencia.sort((a, b) => {
+        if (a.nm_agencia < b.nm_agencia) {
+          return -1;
+        }
+        if (a.nm_agencia > b.nm_agencia) {
+          return 1;
+        }
+        return 0;
+    })
 
     res.render('pages/home', {
         agencia,
@@ -182,8 +197,23 @@ export const listagem = async (req: Request, res: Response) => {
     
    
 
-    let agencia = await TabelaAgencia.findAll({})    
+    let agencia = await TabelaAgencia.findAll({
+        where: {
+            id_ativo:{
+                [Op.eq]: 1
+            }
+        }
+    })
 
+    agencia.sort((a, b) => {
+        if (a.nm_agencia < b.nm_agencia) {
+          return -1;
+        }
+        if (a.nm_agencia > b.nm_agencia) {
+          return 1;
+        }
+        return 0;
+    })
 
     let total = agenciaFila.map((fila, index) => {
         return {

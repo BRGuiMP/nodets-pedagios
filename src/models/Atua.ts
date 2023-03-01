@@ -33,6 +33,7 @@ export interface RotaInstanceAtua extends Model{
 export interface AgenciaInstanceAtua extends Model{
     cd_agencia: number
     nm_agencia: string
+    id_ativo: number
 }
 
 export interface CidadeInstanceAtua extends Model{
@@ -62,6 +63,9 @@ export const TabelaAgencia = sequelizeAtua.define<AgenciaInstanceAtua>("TabelaAg
     },
     nm_agencia: {
         type: DataTypes.STRING
+    },
+    id_ativo: {
+        type: DataTypes.INTEGER
     }
 },
 {
