@@ -5,7 +5,7 @@ import { Op, Sequelize } from 'sequelize'
 
 import { TabelaAgencia, TabelaCf, TabelaCte, TabelaRota } from '../models/Atua'
 import { Usuario, Rota, Classificador, CteClassificado, CteClassificadoInstancePed } from '../models/Pedagio'
-
+import { creatMenuObject } from '../helpers/createMenuObsect'
 
 
 
@@ -14,7 +14,8 @@ export const home = async (req: Request, res: Response)=>{
 
 
     res.render('pages/home', {
-        agencia
+        agencia,
+        menu: creatMenuObject('home')
     })
 }
 
@@ -207,6 +208,7 @@ export const listagem = async (req: Request, res: Response) => {
         totalEmissaoErrado,
         totalCtesErrados,
         total,
-        verificador
+        verificador,
+        menu: creatMenuObject('home')
     })
 }

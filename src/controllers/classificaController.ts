@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
 import { Where } from 'sequelize/types/utils';
+import { creatMenuObject } from '../helpers/createMenuObsect';
 
 
 
@@ -12,7 +13,7 @@ import { Usuario, Rota, Classificador, CteClassificado } from '../models/Pedagio
 export const classificador = async (req: Request, res: Response)=>{
 
     res.render('pages/classificacte', {
-        
+        menu: creatMenuObject('classificador')
     });
 }
 
@@ -113,7 +114,8 @@ export const listagem = async(req: Request, res: Response)=>{
     res.render('pages/classificacte', {
         dadosCf,
         deEmissao,
-        ateEmissao
+        ateEmissao,
+        menu: creatMenuObject('classificador')
       })  
 }
 
