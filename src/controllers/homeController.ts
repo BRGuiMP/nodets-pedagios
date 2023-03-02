@@ -39,7 +39,7 @@ export const listagem = async (req: Request, res: Response) => {
     
     let totalEmissao
     let totalEmissaoErrado
-    let totalCtesErrados
+    let todosCtesErrados
     let agenciaCount:number[] = []
     let agenciaNm:string[] = []
     let agenciaFila = []
@@ -48,6 +48,7 @@ export const listagem = async (req: Request, res: Response) => {
     let rando1:number[] = []
     let rando2:number[] = []
     let rando3:number[] = []
+    let agenciaNmAuxiliar:string[] = []
     
     if(dashboardSelecionado=='dashboardGeral'){
         verificador = true
@@ -71,7 +72,7 @@ export const listagem = async (req: Request, res: Response) => {
                 }
             }
         })
-        totalCtesErrados = await CteClassificado.findAll({
+        todosCtesErrados = await CteClassificado.findAll({
             where: {
                 dt_emissao: {
                     [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
@@ -110,7 +111,7 @@ export const listagem = async (req: Request, res: Response) => {
                 }
             }
         })
-        totalCtesErrados = await CteClassificado.findAll({
+        todosCtesErrados = await CteClassificado.findAll({
             where: {
                 dt_emissao: {
                     [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
@@ -181,7 +182,7 @@ export const listagem = async (req: Request, res: Response) => {
             let randomico = Math.floor(Math.random() * 256)
             rando3.push(randomico)
         }
-        totalCtesErrados = await CteClassificado.findAll({
+        todosCtesErrados = await CteClassificado.findAll({
             where: {
                 dt_emissao: {
                     [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
@@ -193,9 +194,6 @@ export const listagem = async (req: Request, res: Response) => {
         })
         
     }
-
-    
-   
 
     let agencia = await TabelaAgencia.findAll({
         where: {
@@ -229,14 +227,34 @@ export const listagem = async (req: Request, res: Response) => {
     total.sort(function(a, b) {
         return b.count - a.count;
     })
+
+    for(let i = 0; i<todosCtesErrados.length; i++){
+        let result = await TabelaAgencia.findAll({
+            where: {
+                cd_agencia:{
+                    [Op.eq]: todosCtesErrados[i].cd_agencia
+                }
+                
+            }
+        })
+        agenciaNmAuxiliar.push(result[0].nm_agencia)
+    }
+
+    let dados = todosCtesErrados.map((dadosCte, index) => {
+        return {
+            dadosCte,
+            nm_agencia: agenciaNmAuxiliar[index]
+        }
+    })
     
     res.render('pages/home', {
+        dados,
         agencia,
         totalEmissao,
         deEmissao,
         ateEmissao,
         totalEmissaoErrado,
-        totalCtesErrados,
+        todosCtesErrados,
         total,
         verificador,
         menu: creatMenuObject('home')

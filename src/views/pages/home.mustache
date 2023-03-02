@@ -90,16 +90,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {{#totalCtesErrados}}
+                                    {{#dados}}
                                             <tr>
-                                                <th scope="row">{{nr_ctrc}}</th>
-                                                <td>{{dt_emissao}}</td>
+                                                <th scope="row">{{dadosCte.nr_ctrc}}</th>
+                                                <td>{{dadosCte.dt_emissao}}</td>
                                                 <td>
-                                                    {{cd_agencia}}
+                                                    {{nm_agencia}}
                                                 </td>
-                                                <td><a class="btn btn-sm btn-primary" href="">Detalhes</a></td>
+                                                <td><a class="btn btn-sm btn-primary" href="#">Detalhes</a></td>
                                             </tr>
-                                    {{/totalCtesErrados}}
+                                    {{/dados}}
                                     </tbody>
                                 </table>
                             </div>
