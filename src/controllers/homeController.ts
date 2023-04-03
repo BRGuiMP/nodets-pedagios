@@ -67,7 +67,7 @@ export const listagem = async (req: Request, res: Response) => {
                 dt_emissao: {
                     [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
                 },
-                idClassificacao: {
+                idclassificacao: {
                     [Op.eq]: 3
                 }
             }
@@ -77,7 +77,7 @@ export const listagem = async (req: Request, res: Response) => {
                 dt_emissao: {
                     [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
                 },
-                idClassificacao: {
+                idclassificacao: {
                     [Op.eq]: 3
                 }
             }
@@ -137,7 +137,7 @@ export const listagem = async (req: Request, res: Response) => {
                 cd_pessoa_usuario_cancelamento:{
                     [Op.is]: null
                 },
-                idClassificacao: {
+                idclassificacao: {
                     [Op.eq]: 3
                 }
             }
@@ -160,7 +160,7 @@ export const listagem = async (req: Request, res: Response) => {
                     cd_agencia: {
                         [Op.eq]: agenciaFila[j]
                     },
-                    idClassificacao: {
+                    idclassificacao: {
                         [Op.eq]: 3
                     }
                 }
@@ -187,7 +187,7 @@ export const listagem = async (req: Request, res: Response) => {
                 dt_emissao: {
                     [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
                 },
-                idClassificacao: {
+                idclassificacao: {
                     [Op.eq]: 3
                 }
             }

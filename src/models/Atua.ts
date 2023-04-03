@@ -13,11 +13,13 @@ export interface CfInstanceAtua extends Model {
 
 export interface CteInstanceAtua extends Model{
     cd_ctrc: number
+    cd_ctrc_novo: number
     cd_agencia: number
     cd_pessoa_usuario_cancelamento: number
     nr_ctrc: number
     ds_serie: number
     dt_emissao: Date
+    dt_cancelamento: Date
 }
 
 export interface RotaInstanceAtua extends Model{
@@ -130,7 +132,8 @@ export const TabelaCte = sequelizeAtua.define<CteInstanceAtua>("TabelaCte", {
     },
     dt_emissao: {
         type: DataTypes.DATE
-    },cd_cidade_origem: {
+    },
+    cd_cidade_origem: {
         type: DataTypes.INTEGER,
         references: {
             model: TabelaCidade,
@@ -146,6 +149,12 @@ export const TabelaCte = sequelizeAtua.define<CteInstanceAtua>("TabelaCte", {
     },
     nr_embarque: {
         type: DataTypes.INTEGER
+    },
+    cd_ctrc_novo: {
+        type: DataTypes.INTEGER
+    },
+    dt_cancelamento: {
+        type: DataTypes.DATE
     }
 },
 {

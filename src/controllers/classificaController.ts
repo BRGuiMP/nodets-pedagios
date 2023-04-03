@@ -33,7 +33,7 @@ export const listagem = async(req: Request, res: Response)=>{
     let resultCteBDPed = await CteClassificado.findAll({
         attributes: ['cd_ctrc'],
         where: {
-            idClassificacao:{
+            idclassificacao:{
                 [Op.ne]: null
             }
         }
@@ -182,20 +182,20 @@ export const cteCorreto = async (req: Request, res: Response) => {
 
         if(rotaPed.length == 0){
             const newRota = Rota.build({
-                nmRota: dados.TabelaRota.nm_rota,
-                tpRota: 0,
+                nmrota: dados.TabelaRota.nm_rota,
+                tprota: 0,
                 cd_rota: dados.TabelaRota.cd_rota
             })
             await newRota.save()
-            const newRotaId = newRota.get('idRota');
+            const newRotaId = newRota.get('idrota');
 
             if(resultCteClassificado.length>0){
 
                 let dadosClassificado = resultCteClassificado[0]
 
-                dadosClassificado.idRota = newRotaId
-                dadosClassificado.idClassificacao = 1
-                dadosClassificado.dtCadastro = new Date()
+                dadosClassificado.idrota = newRotaId
+                dadosClassificado.idclassificacao = 1
+                dadosClassificado.dtcadastro = new Date()
                 dadosClassificado.cd_ctrc = dados.TabelaCte.cd_ctrc
                 dadosClassificado.dt_emissao = dados.dt_emissao
                 dadosClassificado.cd_agencia = dados.TabelaCte.cd_agencia
@@ -207,9 +207,9 @@ export const cteCorreto = async (req: Request, res: Response) => {
             }
             else{
                 const newCteClassificado = CteClassificado.build({
-                    idRota: newRotaId,
-                    idClassificacao: 1,
-                    dtCadastro: new Date(),
+                    idrota: newRotaId,
+                    idclassificacao: 1,
+                    dtcadastro: new Date(),
                     cd_ctrc: dados.TabelaCte.cd_ctrc,
                     dt_emissao: dados.dt_emissao,
                     cd_agencia: dados.TabelaCte.cd_agencia,
@@ -277,8 +277,8 @@ export const cteErrado =async (req: Request, res: Response) => {
         if(resultCteClassificado.length>0){
             let dadosClassificado = resultCteClassificado[0]
 
-            dadosClassificado.idClassificacao = 3
-            dadosClassificado.dtCadastro = new Date()
+            dadosClassificado.idclassificacao = 3
+            dadosClassificado.dtcadastro = new Date()
             dadosClassificado.cd_ctrc = dados.TabelaCte.cd_ctrc
             dadosClassificado.dt_emissao = dados.dt_emissao
             dadosClassificado.cd_agencia = dados.TabelaCte.cd_agencia
@@ -290,8 +290,8 @@ export const cteErrado =async (req: Request, res: Response) => {
         }
         else{
             const newCteClassificado = CteClassificado.build({
-                idClassificacao: 3,
-                dtCadastro: new Date(),
+                idclassificacao: 3,
+                dtcadastro: new Date(),
                 cd_ctrc: dados.TabelaCte.cd_ctrc,
                 dt_emissao: dados.dt_emissao,
                 cd_agencia: dados.TabelaCte.cd_agencia,
@@ -344,8 +344,8 @@ export const cteCorretoSemRota = async (req: Request, res: Response) => {
         if(resultCteClassificado.length>0){
             let dadosClassificado = resultCteClassificado[0]
 
-            dadosClassificado.idClassificacao = 2
-            dadosClassificado.dtCadastro = new Date()
+            dadosClassificado.idclassificacao = 2
+            dadosClassificado.dtcadastro = new Date()
             dadosClassificado.cd_ctrc = dados.TabelaCte.cd_ctrc
             dadosClassificado.dt_emissao = dados.dt_emissao
             dadosClassificado.cd_agencia = dados.TabelaCte.cd_agencia
@@ -357,8 +357,8 @@ export const cteCorretoSemRota = async (req: Request, res: Response) => {
         }
         else{
             const newCteClassificado = CteClassificado.build({
-                idClassificacao: 2,
-                dtCadastro: new Date(),
+                idclassificacao: 2,
+                dtcadastro: new Date(),
                 cd_ctrc: dados.TabelaCte.cd_ctrc,
                 dt_emissao: dados.dt_emissao,
                 cd_agencia: dados.TabelaCte.cd_agencia,
@@ -387,13 +387,13 @@ export const salvaObs = async (req: Request, res: Response) => {
 
     if(result.length > 0){
         let dados = result[0]
-        dados.descObs= obs;
+        dados.descobs= obs;
         dados.cd_ctrc = parseInt(idCte)
         await dados.save()
     }
     else{
         const newObservacao = CteClassificado.build({
-            descObs: obs,
+            descobs: obs,
             cd_ctrc: idCte
         })
         await newObservacao.save()
@@ -412,15 +412,15 @@ async function salvaCteAutomatico(dadosCfAutomatico:any){
                 }
             }
         })
-        idRotaPed.push(result[0].idRota)
+        idRotaPed.push(result[0].idrota)
     }
 
     for(let i = 0; i<dadosCfAutomatico.length; i++){
         const newCteClassificado = CteClassificado.build({
-            idRota: idRotaPed[i],
-            idClassificacao: 1,
-            dtCadastro: new Date(),
-            descObs: 'Classificado Automaticamente',
+            idrota: idRotaPed[i],
+            idclassificacao: 1,
+            dtcadastro: new Date(),
+            descobs: 'Classificado Automaticamente',
             cd_ctrc: dadosCfAutomatico[i].TabelaCte.cd_ctrc,
             dt_emissao: dadosCfAutomatico[i].dt_emissao,
             cd_agencia: dadosCfAutomatico[i].TabelaCte.cd_agencia,

@@ -22,11 +22,11 @@ export const sequelizeAtua = new Sequelize(
 )
 
 export const sequelizePedagio = new Sequelize(
-    process.env.MYSQLPEDAGIO_DB as string,
-    process.env.MYSQLPEDAGIO_USER as string,
-    process.env.MYSQLPEDAGIO_PASSWORD as string,
+    process.env.PG_PEDAGIO_DB as string,
+    process.env.PG_PEDAGIO_USER as string,
+    process.env.PG_PEDAGIO_PASSWORD as string,
     {
-        dialect: 'mysql',
-        port: parseInt(process.env.MYSQLPEDAGIO_PORT as string)
+        dialect: 'postgres',
+        port: parseInt(process.env.PG_PEDAGIO_PORT as string)
     }
 )

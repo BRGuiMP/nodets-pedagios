@@ -2,41 +2,41 @@ import { Model, DataTypes } from "sequelize";
 import { sequelizePedagio } from "../instances/mysql";
 
 export interface UsuarioInstancePed extends Model {
-    idUsuario: number
+    idusuario: number
     nome: string
     email: string
     senha: string
 }
 
 export interface RotaInstancePed extends Model {
-    idRota: number
-    nmRota: string
-    tpRota: number
+    idrota: number
+    nmrota: string
+    tprota: number
     cd_rota: number
 }
 
 export interface ClassificadorInstancePed extends Model {
-    idClassificacao: number
-    tpClassificacao: number
-    descClassificacao: string
+    idclassificacao: number
+    //tpClassificacao: number
+    descclassificacao: string
 }
 
 export interface CteClassificadoInstancePed extends Model {
-    idCte: number
-    idRota: number
-    dtCadastro: Date
-    descObs: string
+    idcte: number
+    idrota: number
+    dtcadastro: Date
+    descobs: string
     cd_ctrc: number
     dt_emissao: Date
     cd_agencia: number
     cd_pessoa_usuario_cancelamento: number
     nr_ctrc: number
     id_pedagio_cf: number
-    idClassificacao: number
+    idclassificacao: number
 }
 
 export const Usuario = sequelizePedagio.define<UsuarioInstancePed>("Usuario", {
-    idUsuario: {
+    idusuario: {
         primaryKey: true,
         type: DataTypes.INTEGER,
         autoIncrement: true
@@ -57,15 +57,15 @@ export const Usuario = sequelizePedagio.define<UsuarioInstancePed>("Usuario", {
 })
 
 export const Rota = sequelizePedagio.define<RotaInstancePed>("Rota", {
-    idRota: {
+    idrota: {
         primaryKey: true,
         type: DataTypes.INTEGER,
         autoIncrement: true
     },
-    nmRota: {
+    nmrota: {
         type: DataTypes.STRING
     },
-    tpRota: {
+    tprota: {
         type: DataTypes.INTEGER
     },
     cd_rota: {
@@ -78,15 +78,15 @@ export const Rota = sequelizePedagio.define<RotaInstancePed>("Rota", {
 })
 
 export const Classificador = sequelizePedagio.define<ClassificadorInstancePed>("Classificador", {
-    idClassificacao: {
+    idclassificacao: {
         primaryKey: true,
         type: DataTypes.INTEGER,
         autoIncrement: true
     },
-    tpClassificacao: {
+    /* tpClassificacao: {
         type: DataTypes.INTEGER
-    },
-    descClassificacao: {
+    }, */
+    descclassificacao: {
         type: DataTypes.STRING
     }
 },
@@ -96,29 +96,29 @@ export const Classificador = sequelizePedagio.define<ClassificadorInstancePed>("
 })
 
 export const CteClassificado = sequelizePedagio.define<CteClassificadoInstancePed>("CteClassificado", {
-    idCte: {
+    idcte: {
         primaryKey: true,
         type: DataTypes.INTEGER,
         autoIncrement: true
     },
-    idRota: {
+    idrota: {
         type: DataTypes.INTEGER,
         references: {
             model: Rota,
-            key: 'idRota'
+            key: 'idrota'
         }
     },
-    idClassificacao: {
+    idclassificacao: {
         type: DataTypes.INTEGER,
         references: {
             model: Classificador,
-            key: 'idClassificacao'
+            key: 'idclassificacao'
         }
     },
-    dtCadastro: {
+    dtcadastro: {
         type: DataTypes.DATE
     },
-    descObs: {
+    descobs: {
         type: DataTypes.STRING
     },
     cd_ctrc: {
@@ -145,8 +145,8 @@ export const CteClassificado = sequelizePedagio.define<CteClassificadoInstancePe
     timestamps: false
 })
 
-Rota.hasMany(CteClassificado, { foreignKey: 'idRota', as: 'Rota'})
-CteClassificado.belongsTo(Rota, { foreignKey: 'idRota', as: 'Rota'})
+Rota.hasMany(CteClassificado, { foreignKey: 'idrota', as: 'Rota'})
+CteClassificado.belongsTo(Rota, { foreignKey: 'idrota', as: 'Rota'})
 
-Classificador.hasMany(CteClassificado, { foreignKey: 'idClassificacao', as: 'Classificador'})
-CteClassificado.belongsTo(Classificador, { foreignKey: 'idClassificacao', as: 'Classificador'})
+Classificador.hasMany(CteClassificado, { foreignKey: 'idclassificacao', as: 'Classificador'})
+CteClassificado.belongsTo(Classificador, { foreignKey: 'idclassificacao', as: 'Classificador'})

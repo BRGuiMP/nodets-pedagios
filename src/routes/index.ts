@@ -2,9 +2,12 @@ import { Router } from 'express'
 
 import * as HomeController from '../controllers/homeController'
 import * as ClassificaController from '../controllers/classificaController'
+import * as SignupController from '../controllers/signupController';
 
 const router = Router()
 
+router.get('/signup', SignupController.cadastro)
+router.post('/signup', SignupController.newCadastro)
 
 router.get('/', HomeController.home)
 router.post('/', HomeController.listagem)
