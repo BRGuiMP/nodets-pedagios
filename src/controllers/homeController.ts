@@ -103,7 +103,7 @@ export const listagem = async (req: Request, res: Response) => {
                 dt_emissao: {
                     [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
                 },
-                idClassificacao: {
+                idclassificacao: {
                     [Op.eq]: 3
                 },
                 cd_agencia: {
@@ -116,7 +116,7 @@ export const listagem = async (req: Request, res: Response) => {
                 dt_emissao: {
                     [Op.between]: [new Date(deEmissao), new Date(ateEmissao)]
                 },
-                idClassificacao: {
+                idclassificacao: {
                     [Op.eq]: 3
                 },
                 cd_agencia: {
