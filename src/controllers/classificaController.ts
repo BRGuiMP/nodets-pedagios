@@ -66,10 +66,7 @@ export const listagem = async(req: Request, res: Response)=>{
             },
             cd_rota: {
                 [Op.notIn]: nrRota
-            },
-            cd_pessoa_usuario_cancelamento:{
-                [Op.is]: null
-            }
+            }            
         },
         include: [
         {
@@ -116,9 +113,6 @@ export const listagem = async(req: Request, res: Response)=>{
             },
             cd_rota: {
                 [Op.in]: nrRota
-            },
-            cd_pessoa_usuario_cancelamento:{
-                [Op.is]: null
             }
         },
         include: [
